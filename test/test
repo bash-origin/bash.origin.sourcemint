@@ -8,6 +8,7 @@ function init {
 
 
 	pushd "$__BO_DIR__" > /dev/null
+		export SMI_CACHE_DIRPATH="$__BO_DIR__/../.test.cache"
 		BO_callPlugin "$__BO_DIR__/../bash.origin.sourcemint" smi-for-npm install $@
 	popd > /dev/null
 
