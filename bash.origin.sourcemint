@@ -1,0 +1,31 @@
+#!/bin/bash
+# Source https://github.com/cadorn/bash.origin
+. "$HOME/.bash.origin"
+function init {
+	eval BO_SELF_BASH_SOURCE="$BO_READ_SELF_BASH_SOURCE"
+	BO_deriveSelfDir ___TMP___ "$BO_SELF_BASH_SOURCE"
+	local __BO_DIR__="$___TMP___"
+
+
+	function ensure_smi-for-npm_installed {
+		BO_ensureInSystemCache DOWNLOADED_PATH \
+			"github.com/sourcemint/smi-for-npm" \
+			"0.1.0" \
+			"https://github.com/sourcemint/smi-for-npm/archive/v0.1.0.zip"
+		if [ ! -e "$DOWNLOADED_PATH/.installed" ]; then
+			pushd "$DOWNLOADED_PATH" > /dev/null
+				BO_run_npm install --production
+				touch "$DOWNLOADED_PATH/.installed"
+			popd > /dev/null
+		fi
+		BO_setResult "$1" "$DOWNLOADED_PATH"
+	}
+
+	function smi-for-npm {
+		local BASE_PATH
+		ensure_smi-for-npm_installed "BASE_PATH"
+		"$BASE_PATH/bin/smi-for-npm" $@
+	}
+
+}
+init $@
