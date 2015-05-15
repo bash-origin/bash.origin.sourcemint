@@ -10,12 +10,26 @@ function init {
 	pushd "$__BO_DIR__" > /dev/null
 		export SMI_CACHE_DIRPATH="$__BO_DIR__/../.test.cache"
 
+		# Remove cache
 		rm -Rf "$SMI_CACHE_DIRPATH" > /dev/null || true
-		rm -Rf "node_modules/" > /dev/null || true
+
+		rm -Rf *~tmp > /dev/null || true
+		rm -Rf "node_modules" > /dev/null || true
 		rm -Rf "sub/node_modules/" > /dev/null || true
 		rm -Rf ".smi-for-npm" > /dev/null || true
 
 		BO_callPlugin "$__BO_DIR__/../bash.origin.sourcemint" smi-for-npm install
+
+
+		# Second time don't remove cache
+
+		rm -Rf *~tmp > /dev/null || true
+		rm -Rf "node_modules" > /dev/null || true
+		rm -Rf "sub/node_modules/" > /dev/null || true
+		rm -Rf ".smi-for-npm" > /dev/null || true
+
+		BO_callPlugin "$__BO_DIR__/../bash.origin.sourcemint" smi-for-npm install
+
 	popd > /dev/null
 
 }
